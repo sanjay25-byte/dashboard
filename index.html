@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum of Science</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #2c3e50;
+            color: #ecf0f1;
+        }
+        h1, h2, h3, p {
+            margin: 0;
+        }
+        a {
+            color: #1abc9c;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #34495e;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .nav button {
+            background: #1abc9c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .nav button:hover {
+            background: #16a085;
+        }
+        /* Tab Styles */
+        .tab {
+            display: none;
+        }
+        .tab.active {
+            display: block;
+        }
+        /* Home Tab */
+        .home {
+            text-align: center;
+        }
+        .home img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        /* Login Form */
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #2c3e50;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #7f8c8d;
+            border-radius: 5px;
+            background: #34495e;
+            color: #ecf0f1;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #1abc9c;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+        }
+        button:hover {
+            background: #16a085;
+        }
+        /* Dashboard Styles */
+        .dashboard p {
+            margin-bottom: 15px;
+        }
+        .live-feed img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 2px solid #1abc9c;
+        }
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 10px;
+            background: #1abc9c;
+            color: #fff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Buttons -->
+        <div class="nav">
+            <button onclick="showTab('home')">Home</button>
+            <button onclick="showTab('login')">Login</button>
+            <button onclick="showTab('dashboard')">Dashboard</button>
+        </div>
+
+        <!-- Home Tab -->
+        <div id="home" class="tab active home">
+            <h1>Welcome to the Museum of Science</h1>
+            <p>Explore the wonders of science and technology through our interactive exhibits!</p>
+            <img src="https://source.unsplash.com/900x400/?museum,science" alt="Museum Image">
+        </div>
+
+        <!-- Login Tab -->
+        <div id="login" class="tab">
+            <h1>Authority Login</h1>
+            <form onsubmit="handleLogin(event)">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab dashboard">
+            <h1>Dashboard</h1>
+            <p>Temperature: <strong><span id="temperature">25</span>°C</strong></p>
+            <p>Humidity: <strong><span id="humidity">60</span>%</strong></p>
+            <p>Exhibit Status: <strong><span id="exhibit-status">Normal</span></strong></p>
+            <div class="live-feed">
+                <h2>Live Feed</h2>
+                <img id="live-feed-img" src="https://source.unsplash.com/600x400/?science,exhibit" alt="Live Feed">
+            </div>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Museum of Science. All Rights Reserved.
+    </footer>
+
+    <script>
+        // Dummy sensor data
+        const sensorData = {
+            temperature: 25,
+            humidity: 60,
+            exhibitStatus: "Normal"
+        };
+
+        // Dummy authority credentials
+        const AUTHORITY_CREDENTIALS = {
+            admin: "password123"
+        };
+
+        // Function to show a specific tab
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show the selected tab
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Function to handle login
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (AUTHORITY_CREDENTIALS[username] === password) {
+                alert('Login successful!');
+                showTab('dashboard');
+                updateSensorData();
+                updateLiveFeed();
+            } else {
+                alert('Invalid credentials');
+            }
+        }
+
+        // Function to update sensor data on the dashboard
+        function updateSensorData() {
+            document.getElementById('temperature').textContent = sensorData.temperature;
+            document.getElementById('humidity').textContent = sensorData.humidity;
+            document.getElementById('exhibit-status').textContent = sensorData.exhibitStatus;
+        }
+
+        // Function to update the live feed
+        function updateLiveFeed() {
+            const liveFeedImg = document.getElementById('live-feed-img');
+            liveFeedImg.src = "https://source.unsplash.com/600x400/?science,exhibit&" + new Date().getTime();
+        }
+
+        // Update the live feed every 5 seconds
+        setInterval(updateLiveFeed, 5000);
+
+        // Function to handle logout
+        function logout() {
+            alert('Logged out successfully!');
+            showTab('home');
+        }
+
+        // Show home tab by default
+        showTab('home');
+    </script>
+</body>
+</html>
