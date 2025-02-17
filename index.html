@@ -3,136 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Museum of Science</title>
-    <style>
-        /* Global Styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #2c3e50;
-            color: #ecf0f1;
-        }
-        h1, h2, h3, p {
-            margin: 0;
-        }
-        a {
-            color: #1abc9c;
-        }
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 20px;
-            background: #34495e;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        }
-        /* Navigation */
-        .nav {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .nav button {
-            background: #1abc9c;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            margin: 0 10px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .nav button:hover {
-            background: #16a085;
-        }
-        /* Tab Styles */
-        .tab {
-            display: none;
-        }
-        .tab.active {
-            display: block;
-        }
-        /* Home Tab */
-        .home {
-            text-align: center;
-        }
-        .home img {
-            max-width: 100%;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        /* Login Form */
-        form {
-            max-width: 400px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #2c3e50;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #7f8c8d;
-            border-radius: 5px;
-            background: #34495e;
-            color: #ecf0f1;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #1abc9c;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            color: #fff;
-        }
-        button:hover {
-            background: #16a085;
-        }
-        /* Dashboard Styles */
-        .dashboard p {
-            margin-bottom: 15px;
-        }
-        .live-feed img {
-            max-width: 100%;
-            border-radius: 8px;
-            border: 2px solid #1abc9c;
-        }
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 10px;
-            background: #1abc9c;
-            color: #fff;
-            border-radius: 5px;
-        }
-    </style>
+    <title>Museum of Science - AI Defect Detection</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <!-- Navigation Buttons -->
         <div class="nav">
-            <button onclick="showTab('home')">Hom</button>
+            <button onclick="showTab('home')">Home</button>
             <button onclick="showTab('login')">Login</button>
             <button onclick="showTab('dashboard')">Dashboard</button>
         </div>
 
-        <!-- Home Tab -->
-        <div id="home" class="tab active home">
-            <h1>Welcome to the Museum of Science</h1>
-            <p>Explore the wonders of science and technology through our interactive exhibits!</p>
-            <img src="https://source.unsplash.com/900x400/?museum,science" alt="Museum Image">
+        <div id="home" class="tab home active">
+            <h1>Welcome to the Museum of Sculpture</h1>
+            <br>
+            <p>Explore the wonders of our ancestors with this Sculpture</p>
+            <br>
+            <img src="https://www.holidify.com/images/foreign/compressed/attr_123731.jpg" alt="Museum Image" width="700",height="700">
         </div>
 
-        <!-- Login Tab -->
         <div id="login" class="tab">
             <h1>Authority Login</h1>
             <form onsubmit="handleLogin(event)">
@@ -144,49 +34,45 @@
             </form>
         </div>
 
-        <!-- Dashboard Tab -->
         <div id="dashboard" class="tab dashboard">
             <h1>Dashboard</h1>
-            <p>Temperature: <strong><span id="temperature">25</span>°C</strong></p>
-            <p>Humidity: <strong><span id="humidity">60</span>%</strong></p>
-            <p>Exhibit Status: <strong><span id="exhibit-status">Normal</span></strong></p>
+            <br>
             <div class="live-feed">
                 <h2>Live Feed</h2>
-                <img id="live-feed-img" src="https://source.unsplash.com/600x400/?science,exhibit" alt="Live Feed">
+                <br>
+                <div class="feed-wrapper">
+                    <img id="live-feed-img" src="http://192.168.106.92:8080/video" alt="Live Feed" width="500",height="400" >
+                    <div id="feed-error" class="hidden">
+                        <div class="loading-animation"></div>
+                        <p>Error: Live feed is disconnected.</p>
+                    </div>
+                </div>
+                <div id="defect-status">
+                    <br>
+                    Status: <span id="status-text">SAFE</span>
+                </div>
             </div>
+            <br>
             <button onclick="logout()">Logout</button>
         </div>
     </div>
 
     <footer>
-        &copy; 2025 Museum of Science. All Rights Reserved.
+        <p>&copy; 2025 Museum of Sculpture. All rights reserved.</p>
     </footer>
 
     <script>
-        // Dummy sensor data
-        const sensorData = {
-            temperature: 25,
-            humidity: 60,
-            exhibitStatus: "Normal"
-        };
+        const AUTHORITY_CREDENTIALS = { admin: "password123" };
 
-        // Dummy authority credentials
-        const AUTHORITY_CREDENTIALS = {
-            admin: "password123"
-        };
-
-        // Function to show a specific tab
         function showTab(tabId) {
-            // Hide all tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-
-            // Show the selected tab
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
+
+            if (tabId === 'dashboard') {
+                updateLiveFeed();
+            }
         }
 
-        // Function to handle login
         function handleLogin(event) {
             event.preventDefault();
             const username = document.getElementById('username').value;
@@ -195,36 +81,98 @@
             if (AUTHORITY_CREDENTIALS[username] === password) {
                 alert('Login successful!');
                 showTab('dashboard');
-                updateSensorData();
-                updateLiveFeed();
             } else {
                 alert('Invalid credentials');
             }
         }
 
-        // Function to update sensor data on the dashboard
-        function updateSensorData() {
-            document.getElementById('temperature').textContent = sensorData.temperature;
-            document.getElementById('humidity').textContent = sensorData.humidity;
-            document.getElementById('exhibit-status').textContent = sensorData.exhibitStatus;
-        }
-
-        // Function to update the live feed
         function updateLiveFeed() {
             const liveFeedImg = document.getElementById('live-feed-img');
-            liveFeedImg.src = "https://source.unsplash.com/600x400/?science,exhibit&" + new Date().getTime();
+            const feedError = document.getElementById('feed-error');
+            const statusText = document.getElementById('status-text');
+
+            fetch(liveFeedImg.src)
+                .then(response => {
+                    if (response.ok) {
+                        liveFeedImg.style.display = 'block';
+                        feedError.classList.add('hidden');
+                        return response.blob(); // Simulate fetching live feed
+                    } else {
+                        throw new Error('Feed disconnected');
+                    }
+                })
+                .catch(() => {
+                    liveFeedImg.style.display = 'none';
+                    feedError.classList.remove('hidden');
+                });
+
+            fetch('http://192.168.242.76:8080/get_status')
+                .then(response => response.text())
+                .then(text => statusText.textContent = text)
+                .catch(error => {
+                    console.error('Error fetching status:', error);
+                    statusText.textContent = 'ERROR';
+                });
         }
 
-        // Update the live feed every 5 seconds
-        setInterval(updateLiveFeed, 5000);
+        setInterval(() => {
+            if (document.getElementById('dashboard').classList.contains('active')) {
+                updateLiveFeed();
+            }
+        }, 100);
 
-        // Function to handle logout
+        function updateLiveFeed() {
+        const liveFeedImg = document.getElementById('live-feed-img');
+        const feedError = document.getElementById('feed-error');
+        const statusText = document.getElementById('status-text');
+
+        // Update the live feed status
+        fetch(liveFeedImg.src)
+            .then(response => {
+                if (response.ok) {
+                    liveFeedImg.style.display = 'block';
+                    feedError.classList.add('hidden');
+                } else {
+                    throw new Error('Feed disconnected');
+                }
+            })
+            .catch(() => {
+                liveFeedImg.style.display = 'none';
+                feedError.classList.remove('hidden');
+            });
+
+        // Fetch the status from the Flask server
+        fetch('http://localhost:5000/get_status') // Adjust URL if necessary
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch status from the server");
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update the status text on the HTML page
+                statusText.textContent = data.status;
+            })
+            .catch(error => {
+                console.error("Error fetching status:", error);
+                statusText.textContent = "ERROR: Unable to connect to the server";
+            });
+    }
+
+    // Refresh the status every 2 seconds
+    setInterval(() => {
+        if (document.getElementById('dashboard').classList.contains('active')) {
+            updateLiveFeed();
+        }
+    }, 2000);
+
         function logout() {
             alert('Logged out successfully!');
             showTab('home');
+
+        
         }
 
-        // Show home tab by default
         showTab('home');
     </script>
 </body>
